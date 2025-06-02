@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day Planner</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="background-slides">
+      <div
+        class="background-slide"
+        style="background-image: url('images/exercise.jpg')"
+      ></div>
+      <div
+        class="background-slide"
+        style="background-image: url('images/appointment.jpeg')"
+      ></div>
+      <div
+        class="background-slide"
+        style="background-image: url('images/meeting.jpg')"
+      ></div>
+      <div
+        class="background-slide"
+        style="background-image: url('images/study.jpg')"
+      ></div>
+      <div
+        class="background-slide"
+        style="background-image: url('images/gym.webp')"
+      ></div>
+      <div
+        class="background-slide"
+        style="background-image: url('images/work.jpg')"
+      ></div>
+    </div>
+
+    <div class="confirmation-modal" id="clearAllModal">
+      <div class="modal-content">
+        <h3>Clear All Tasks</h3>
+        <p>
+          Are you sure you want to delete all tasks? This action cannot be
+          undone.
+        </p>
+        <div class="modal-buttons">
+          <button class="modal-btn modal-btn-confirm" id="confirmClear">
+            Clear All
+          </button>
+          <button class="modal-btn modal-btn-cancel" id="cancelClear">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="notification" id="notification">Task cleared successfully!</div>
+
+    <div class="container">
+      <header>
+        <div class="logo"><span>Day</span> Planner</div>
+        <div class="header-controls">
+          <button class="clear-all" id="clearAllBtn">
+            <i class="fas fa-trash-alt"></i> Clear All
+          </button>
+          <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </header>
+
+      <div class="planner-container">
+        <div class="task-form">
+          <h2 class="form-title">Add New Task</h2>
+          <form id="taskForm">
+            <div class="form-group">
+              <label for="taskTitle">Title</label>
+              <input
+                type="text"
+                id="taskTitle"
+                placeholder="Enter task title"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="taskCategory">Category</label>
+              <select id="taskCategory" required>
+                <option value="">Select a category</option>
+                <option value="work">Work</option>
+                <option value="meeting">Meeting</option>
+                <option value="appointment">Appointment</option>
+                <option value="personal">Personal</option>
+                <option value="study">Study</option>
+                <option value="exercise">Exercise</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="taskDue">Due Date</label>
+              <input type="datetime-local" id="taskDue" required />
+            </div>
+            <div class="form-group">
+              <label for="taskDescription">Description</label>
+              <textarea
+                id="taskDescription"
+                placeholder="Enter task description (optional)"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>Priority</label>
+              <div class="priority-options">
+                <div class="priority-option high" data-priority="high">
+                  High
+                </div>
+                <div class="priority-option medium" data-priority="medium">
+                  Medium
+                </div>
+                <div class="priority-option low" data-priority="low">Low</div>
+              </div>
+              <input type="hidden" id="taskPriority" value="" />
+            </div>
+            <button type="submit" class="btn btn-block">Add Task</button>
+          </form>
+        </div>
+
+        <div class="tasks-container">
+          <div class="tasks-header">
+            <h2 class="tasks-title">Today's Tasks</h2>
+            <div class="filter-controls">
+              <select id="categoryFilter" class="filter-select">
+                <option value="">All Categories</option>
+                <option value="work">Work</option>
+                <option value="meeting">Meeting</option>
+                <option value="appointment">Appointment</option>
+                <option value="personal">Personal</option>
+                <option value="study">Study</option>
+                <option value="exercise">Exercise</option>
+              </select>
+              <select id="statusFilter" class="filter-select">
+                <option value="all">All Tasks</option>
+                <option value="active">Active</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="priority-columns">
+            <div class="priority-column high-column">
+              <h3 class="priority-title">High Priority</h3>
+              <ul class="task-list" id="highTasks" data-priority="high">
+                <li class="empty-state">No tasks found</li>
+              </ul>
+            </div>
+            <div class="priority-column medium-column">
+              <h3 class="priority-title">Medium Priority</h3>
+              <ul class="task-list" id="mediumTasks" data-priority="medium">
+                <li class="empty-state">No tasks found</li>
+              </ul>
+            </div>
+            <div class="priority-column low-column">
+              <h3 class="priority-title">Low Priority</h3>
+              <ul class="task-list" id="lowTasks" data-priority="low">
+                <li class="empty-state">No tasks found</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="progress-container">
+            <div class="progress-header">
+              <h3 class="progress-title">Today's Progress</h3>
+              <div class="progress-stats">
+                <div class="stat">
+                  <div class="stat-value" id="totalTasks">0</div>
+                  <div class="stat-label">Total</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-value" id="completedTasks">0</div>
+                  <div class="stat-label">Done</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-value" id="remainingTasks">0</div>
+                  <div class="stat-label">Left</div>
+                </div>
+              </div>
+            </div>
+            <div class="progress-bar">
+              <div
+                class="progress-fill"
+                id="progressFill"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+
+          <div class="quote-container">
+            <p id="quoteText">
+              "The secret of getting ahead is getting started."
+            </p>
+            <p id="quoteAuthor">- Mark Twain</p>
+            <button class="new-quote" id="newQuote">New Quote</button>
+          </div>
+        </div>
+      </div>
+
+      <footer>© <span id="currentYear"></span> Developed By Harsh Daki</footer>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
